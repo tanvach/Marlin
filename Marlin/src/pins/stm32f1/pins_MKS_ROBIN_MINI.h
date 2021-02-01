@@ -28,12 +28,10 @@
 #if NOT_TARGET(__STM32F1__)
   #error "Oops! Select an STM32F1 board in 'Tools > Board.'"
 #elif HOTENDS > 1 || E_STEPPERS > 1
-  #error "MKS Robin mini only supports one hotend / E-stepper. Comment out this line to continue."
+  #error "MKS Robin mini only supports 1 hotend / E-stepper. Comment out this line to continue."
 #endif
 
 #define BOARD_INFO_NAME "MKS Robin Mini"
-
-#define BOARD_NO_NATIVE_USB
 
 //
 // Release PB4 (Y_ENABLE_PIN) from JTAG NRST role
@@ -51,13 +49,6 @@
 #endif
 
 #define SPI_DEVICE                             2
-
-//
-// Servos
-//
-#ifndef SERVO0_PIN
-  #define SERVO0_PIN                        PA8   // Enable BLTOUCH support on IO0 (WIFI connector)
-#endif
 
 //
 // Limit Switches
@@ -98,7 +89,6 @@
 #ifndef DEFAULT_PWM_MOTOR_CURRENT
   #define DEFAULT_PWM_MOTOR_CURRENT { 800, 800, 800 }
 #endif
-
 //
 // Temperature Sensors
 //
@@ -118,6 +108,8 @@
 //
 #define POWER_LOSS_PIN                      PA2   // PW_DET
 #define PS_ON_PIN                           PA3   // PW_OFF
+
+#define SERVO0_PIN                          PA8   // Enable BLTOUCH support on IO0 (WIFI connector)
 
 #define MT_DET_1_PIN                        PA4
 #define MT_DET_PIN_INVERTING               false
@@ -177,17 +169,17 @@
 #endif
 
 #if ENABLED(TOUCH_SCREEN)
-  #ifndef TOUCH_CALIBRATION_X
-    #define TOUCH_CALIBRATION_X            12033
+  #ifndef XPT2046_X_CALIBRATION
+    #define XPT2046_X_CALIBRATION          12033
   #endif
-  #ifndef TOUCH_CALIBRATION_Y
-    #define TOUCH_CALIBRATION_Y            -9047
+  #ifndef XPT2046_Y_CALIBRATION
+    #define XPT2046_Y_CALIBRATION          -9047
   #endif
-  #ifndef TOUCH_OFFSET_X
-    #define TOUCH_OFFSET_X                   -30
+  #ifndef XPT2046_X_OFFSET
+    #define XPT2046_X_OFFSET                 -30
   #endif
-  #ifndef TOUCH_OFFSET_Y
-    #define TOUCH_OFFSET_Y                   254
+  #ifndef XPT2046_Y_OFFSET
+    #define XPT2046_Y_OFFSET                 254
   #endif
 #endif
 

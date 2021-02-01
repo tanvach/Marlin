@@ -50,18 +50,12 @@
   #define IS_TEENSY32 1
 #endif
 
-#include "../../core/serial_hook.h"
-typedef Serial0Type<decltype(Serial)> DefaultSerial;
-extern DefaultSerial MSerial;
-typedef ForwardSerial0Type<decltype(SerialUSB)> USBSerialType;
-extern USBSerialType USBSerial;
-
-#define _MSERIAL(X) MSerial##X
+#define _MSERIAL(X) Serial##X
 #define MSERIAL(X) _MSERIAL(X)
-#define MSerial0 MSerial
+#define Serial0 Serial
 
 #if SERIAL_PORT == -1
-  #define MYSERIAL0 USBSerial
+  #define MYSERIAL0 SerialUSB
 #elif WITHIN(SERIAL_PORT, 0, 3)
   #define MYSERIAL0 MSERIAL(SERIAL_PORT)
 #endif
@@ -80,6 +74,17 @@ typedef int8_t pin_t;
 #define ENABLE_ISRS()  __enable_irq()
 #define DISABLE_ISRS() __disable_irq()
 
+#ifndef strncpy_P
+  #define strncpy_P(dest, src, num) strncpy((dest), (src), (num))
+#endif
+
+// Fix bug in pgm_read_ptr
+#undef pgm_read_ptr
+#define pgm_read_ptr(addr) (*((void**)(addr)))
+// Add type-checking to pgm_read_word
+#undef pgm_read_word
+#define pgm_read_word(addr) (*((uint16_t*)(addr)))
+
 inline void HAL_init() {}
 
 // Clear the reset reason
@@ -92,16 +97,12 @@ inline void HAL_reboot() {}  // reboot the board or restart the bootloader
 
 FORCE_INLINE void _delay_ms(const int delay_ms) { delay(delay_ms); }
 
-#if GCC_VERSION <= 50000
-  #pragma GCC diagnostic push
-  #pragma GCC diagnostic ignored "-Wunused-function"
-#endif
-
-extern "C" int freeMemory();
-
-#if GCC_VERSION <= 50000
-  #pragma GCC diagnostic pop
-#endif
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wunused-function"
+extern "C" {
+  int freeMemory();
+}
+#pragma GCC diagnostic pop
 
 // ADC
 

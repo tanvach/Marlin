@@ -126,9 +126,9 @@
 //
 // SPI
 //
-#define SD_SCK_PIN                          PA5
-#define SD_MISO_PIN                         PA6
-#define SD_MOSI_PIN                         PA7
+#define SCK_PIN                             PA5
+#define MISO_PIN                            PA6
+#define MOSI_PIN                            PA7
 
 //
 // Misc. Functions
@@ -164,11 +164,6 @@
     #define LCD_PINS_D5                     PE13
     #define LCD_PINS_D6                     PE14
     #define LCD_PINS_D7                     PE15
-
-    #if ENABLED(REPRAP_DISCOUNT_FULL_GRAPHIC_SMART_CONTROLLER)
-      #define BTN_ENC_EN             LCD_PINS_D7  // Detect the presence of the encoder
-    #endif
-
   #endif
 
   // Alter timing for graphical display
@@ -180,7 +175,7 @@
       #define BOARD_ST7920_DELAY_2 DELAY_NS(48)
     #endif
     #ifndef BOARD_ST7920_DELAY_3
-      #define BOARD_ST7920_DELAY_3 DELAY_NS(640)
+      #define BOARD_ST7920_DELAY_3 DELAY_NS(600)
     #endif
   #endif
 

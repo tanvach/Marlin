@@ -60,7 +60,7 @@ uint8_t _getc();
 
 #define SHARED_SERVOS HAS_SERVOS
 
-extern MSerialT usb_serial;
+extern HalSerial usb_serial;
 #define MYSERIAL0 usb_serial
 
 #define ST7920_DELAY_1 DELAY_NS(600)
@@ -79,16 +79,10 @@ extern MSerialT usb_serial;
 inline void HAL_init() {}
 
 // Utility functions
-#if GCC_VERSION <= 50000
-  #pragma GCC diagnostic push
-  #pragma GCC diagnostic ignored "-Wunused-function"
-#endif
-
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wunused-function"
 int freeMemory();
-
-#if GCC_VERSION <= 50000
-  #pragma GCC diagnostic pop
-#endif
+#pragma GCC diagnostic pop
 
 // ADC
 #define HAL_ADC_VREF           5.0
@@ -113,3 +107,8 @@ inline void HAL_reboot() {}  // reboot the board or restart the bootloader
 FORCE_INLINE static void DELAY_CYCLES(uint64_t x) {
   Clock::delayCycles(x);
 }
+
+// Add strcmp_P if missing
+#ifndef strcmp_P
+  #define strcmp_P(a, b) strcmp((a), (b))
+#endif

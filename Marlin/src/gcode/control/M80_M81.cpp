@@ -89,9 +89,8 @@
  */
 void GcodeSuite::M81() {
   thermalManager.disable_all_heaters();
-  planner.finish_and_disable();
-
   print_job_timer.stop();
+  planner.finish_and_disable();
 
   #if HAS_FAN
     thermalManager.zero_fan_speeds();
@@ -106,7 +105,7 @@ void GcodeSuite::M81() {
   #if HAS_SUICIDE
     suicide();
   #elif ENABLED(PSU_CONTROL)
-    PSU_OFF_SOON();
+    PSU_OFF();
   #endif
 
   LCD_MESSAGEPGM_P(PSTR(MACHINE_NAME " " STR_OFF "."));

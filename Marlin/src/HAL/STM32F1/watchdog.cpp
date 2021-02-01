@@ -34,7 +34,9 @@
 #include "watchdog.h"
 
 /**
- *  The watchdog clock is 40Khz. So for a 4s or 8s interval use a /256 preescaler and 625 or 1250 reload value (counts down to 0).
+ *  The watchdog clock is 40Khz. We need a 4 seconds interval, so use a /256 preescaler and
+ *  625 reload value (counts down to 0)
+ *  use 1250 for 8 seconds
  */
 #define STM32F1_WD_RELOAD TERN(WATCHDOG_DURATION_8S, 1250, 625) // 4 or 8 second timeout
 
@@ -54,7 +56,7 @@ void watchdogSetup() {
  *
  * @return No return
  *
- * @details The watchdog clock is 40Khz. So for a 4s or 8s interval use a /256 preescaler and 625 or 1250 reload value (counts down to 0).
+ * @details The watchdog clock is 40Khz. We need a 4 seconds interval, so use a /256 preescaler and 625 reload value (counts down to 0)
  */
 void watchdog_init() {
   #if DISABLED(DISABLE_WATCHDOG_INIT)
